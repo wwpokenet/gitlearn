@@ -1,0 +1,134 @@
+//
+//  main.cpp
+//  chain test
+//
+//  Created by wwpokenet on 2016/12/17.
+//  Copyright © 2016年 wwpokenet. All rights reserved.
+//
+
+#include <iostream>
+using namespace std;
+struct chess {
+    int x;
+    int y;
+    chess *next;
+};
+chess *create() {
+    chess *head=NULL;
+    chess *p;
+    chess *pp;
+    int n=0;
+    p=new chess;
+    if (p==NULL) return NULL;
+    pp=p;
+    cin>>p->x>>p->y;
+    for (; ; ) {
+        n++;
+        if (p->x==0&&p->y==0) {
+            break;
+        }
+        if (n==1) head=p;
+        else pp->next=p;
+        pp=p;
+        p=new chess;
+        cin>>p->x>>p->y;
+    }
+    delete p;
+    pp->next=NULL;
+    return head;
+}
+chess *read(chess *head, int num) {
+    for (int j=1; ;j++) {
+        if (j==num) {
+            return head;
+        }
+        else head=head->next;
+    }
+}
+chess *chsdelete(chess *head, int num) {
+    chess *temp=head;
+    if (num==1) {
+        temp=temp->next;
+        return temp;
+    }
+    else {
+        
+        for(int i=1;;i++){
+            if ((temp->next)->next==NULL) {
+                temp->next=NULL;
+                return head;
+            }
+            
+            if (i==num-1){
+                temp->next=(temp->next)->next;
+                return head;
+            }
+            temp=temp->next;
+        }
+    }
+}
+void chsadd(chess *head, int num) {
+    chess *p=new chess;
+    cout<<"Add date to the new step";
+    cin>>p->x>>p->y;
+    for (int i=1;;i++){
+        if (i==num){
+            p->next=head->next;
+            head->next=p;
+            break;
+        }
+        head=head->next;
+    }
+}
+void output(chess *head) {
+    if (head==NULL) return;
+    cout<<head->x<<head->y<<' ';
+    for (;;) {
+        head=head->next;
+        cout<<head->x<<head->y<<' ';
+        if (head->next==NULL) break;
+    }
+}
+void change(chess *head, int num) {
+    for (int i=1;;i++){
+        if (i==num){
+            cout<<"Please inter new date";
+            cin>>head->x>>head->y;
+            break;
+        }
+        head=head->next;
+    }
+}
+int main(int argc, const char * argv[]) {
+    chess *head=create();
+    output(head);
+    {
+        int i;
+        cout<<"Which step do you want to read ?";
+        cin>>i;
+        chess *required=read(head,i);
+        cout<<required->x<<required->y<<endl;
+    }//select
+    {
+        int j;
+        cout<<"Which number do you want to delete ?";
+        cin>>j;
+        head=chsdelete(head, j);
+    }//delete
+    output(head);
+    {
+        cout<<"Where do you want to add after ?";
+        int k;
+        cin>>k;
+        chsadd(head, k);
+    }//add
+    output(head);
+    {
+        int l;
+        cout<<"Which step do you want to change ?";
+        cin>>l;
+        change(head, l);
+    }//change
+    output(head);
+      return 0;
+}
