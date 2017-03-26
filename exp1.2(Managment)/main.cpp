@@ -39,5 +39,6 @@ int main(int argc, const char * argv[]) {
     employee test;
     cin >> test;
     cout << test;
+    cout << "Tested vi."
     return 0;
 }
